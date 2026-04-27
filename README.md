@@ -335,6 +335,49 @@ However, you will find that I've done that for you in the client for most things
         * if you use "d.setRFRegister()", this is handled for you
         * `use d.setRFRegister()`
 
+## IMMESniffer key bindings
+
+When running with an IMME device, the sniffer UI accepts these key bindings:
+
+| Key | Action |
+|-----|--------|
+| `q` / `a` | Inc / dec highest sync word nibble |
+| `w` / `s` | Inc / dec high-middle sync word nibble |
+| `e` / `d` | Inc / dec low-middle sync word nibble |
+| `r` / `f` | Inc / dec lowest sync word nibble |
+| `z` | No sync word matching |
+| `menu` / `bye!` | Inc / dec modulation type |
+| `up` / `down` | Inc / dec receive bandwidth |
+| `right` / `left` | Inc / dec baudrate |
+| `p` / `Enter` | Inc / dec frequency |
+| `o` / `,` | Faster inc / dec frequency |
+| `i` / `m` | Even faster inc / dec frequency |
+| `l` / `k` / `j` / `h` | Set freq to 915 / 868 / 433 / 315 MHz |
+| `t` / `v` | Inc / dec channels |
+| `g` | Set channel to 0 |
+| `SPACE` | Switch screens |
+| `SPKR` | Toggle carrier TX mode |
+
+## MSF Relay
+
+`rfcat_msfrelay` is a lightweight web server that exposes rfcat as a [Metasploit Hardware Bridge](http://OpenGarages.org/hwbridge), enabling use of the `rftransceiver` Metasploit extension with any rfcat-compatible dongle.
+
+```bash
+# start the relay (default: localhost, user msf_relay, pass rfcat_relaypass)
+rfcat_msfrelay
+```
+
+Then from Metasploit:
+
+```
+use auxiliary/client/hwbridge/connect
+set httpusername msf_relay
+set httppassword rfcat_relaypass
+run
+```
+
+Once the hardware bridge session is open, `run post/hardware/rftransceiver/...` modules are available. The relay supports freq, modulation, baudrate, channel, sync word, TX, RX, and related parameters. Not all rfcat methods have Metasploit equivalents - use rfcat directly for research and Metasploit for exploit delivery.
+
 ## rfox
 
 [rfox](https://github.com/qu-crypt/rfox) is a companion CLI built on top of rflib that wraps the most common day-to-day RF workflows - capture, replay, decode, sweep, jam, brute-force, and more - behind a single consistent interface and a shared pcap capture format. Install it separately if you want a higher-level tool on top of rfcat.

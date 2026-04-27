@@ -27,7 +27,7 @@ requirements = open('requirements.txt').read().split('\n')
 
 # Readme function to show readme as a description in pypi
 def readme():
-    with codecs.open('README.rst', encoding='utf-8') as f:
+    with codecs.open('README.md', encoding='utf-8') as f:
         return f.read()
 
 
