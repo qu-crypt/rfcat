@@ -5,6 +5,8 @@ include README.md
 include FAQ
 include TODO
 
+include VERSION
+include requirements.txt
 include revision.sh
 
 include rfcat_msfrelay
