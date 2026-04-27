@@ -31,7 +31,7 @@ def readme():
         return f.read()
 
 
-setuptools.setup  (name  = 'rfcat',
+setuptools.setup  (name  = 'rfcat-py3',
         version          = RFCAT_VERSION,
         description      = "the swiss army knife of subGHz",
         long_description = readme(),
