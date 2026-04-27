@@ -2,22 +2,22 @@ Welcome to the rfcat project
 
 ## Table of Contents
 
-* [Goals](#goals)
-* [Requirements](#requirements)
-  * [Other requirements](#other-requirements)
-  * [Build requirements](#build-requirements)
-* [Development](#development)
-  * ["Gotchas"](#gotchas)
-* [Installing on hardware](#installing-on-hardware)
-  * [Allowing non-root dongle access](#allowing-non-root-dongle-access)
-  * [Supported dongles](#supported-dongles)
-  * [Your build environment](#your-build-environment)
-* [Installing with bootloader](#installing-with-bootloader)
-  * [To install](#to-install)
-* [Installing client](#installing-client)
-* [Using RfCat](#using-rfcat)
-* [Cool Projects Using RfCat](#external-projects)
-* [Epilogue](#epilogue)
+- [Goals](#goals)
+- [Requirements](#requirements)
+  - [Other requirements](#other-requirements)
+  - [Build requirements](#build-requirements)
+- [Development](#development)
+  - ["Gotchas"](#gotchas)
+- [Installing on hardware](#installing-on-hardware)
+  - [Allowing non-root dongle access](#allowing-non-root-dongle-access)
+  - [Supported dongles](#supported-dongles)
+  - [Your build environment](#your-build-environment)
+- [Installing with bootloader](#installing-with-bootloader)
+  - [To install](#to-install)
+- [Installing client](#installing-client)
+- [Using RfCat](#using-rfcat)
+- [Cool Projects Using RfCat](#external-projects)
+- [Epilogue](#epilogue)
 
 ## GOALS
 
@@ -25,37 +25,36 @@ The goals of the project are to reduce the time for security researchers to crea
 
 ## REQUIREMENTS
 
-RfCat requires Python 3.8 or newer.  Python 2 support has been removed.
+RfCat requires Python 3.8 or newer. Python 2 support has been removed.
 
 ### Other requirements
 
-* python usb
-* libusb - should be able to work with either 1.x or 0.1 versions.  please let us know if you run into issues.
-* pyreadline (especially for Windows)
-* PySide6 (for Spectrum Analyzer GUI).  Not installed automatically; install with the `specan` extra:
-    $ pip install 'rfcat[specan]'  
-    or directly:
-    $ pip install 'PySide6>=6.4'  
+- python usb
+- libusb - should be able to work with either 1.x or 0.1 versions. please let us know if you run into issues.
+- pyreadline (especially for Windows)
+- PySide6 (for Spectrum Analyzer GUI). Not installed automatically; install with the `specan` extra:
+  $ pip install 'rfcat[specan]'  
+   or directly:
+  $ pip install 'PySide6>=6.4'
 
 ### Build requirements
 
-* Make
-* SDCC
+- Make
+- SDCC
 
 ## DEVELOPMENT
 
-New development efforts should copy the "application.c" file to "appWhateverMyToolIs.c" and attempt to avoid making changes to other files in the repo if at all possible.  that is only a recommendation, because future bug-fixes in other libraries/headers will go much more smoothely for you.
+New development efforts should copy the "application.c" file to "appWhateverMyToolIs.c" and attempt to avoid making changes to other files in the repo if at all possible. that is only a recommendation, because future bug-fixes in other libraries/headers will go much more smoothely for you.
 
 ### Gotchas
 
-A couple [gotchas](https://en.wikipedia.org/wiki/Gotcha_(programming)) to keep in mind while developing for the cc1111
+A couple [gotchas](<https://en.wikipedia.org/wiki/Gotcha_(programming)>) to keep in mind while developing for the cc1111
 
-* The memory model includes both "RAM" and "XDATA" concepts, and standard RAM variables and XDATA variables have different assembly instructions that are used to access them.  this means that you may find oddities when using a function written for XDATA on a standard RAM variable, and vice-versa.
-* Variables should be defined in a single .c file, and then "externs" declared in a .h file that can be included in other modules.  this is pretty standard for c programs, but both this and the previous point caused me difficulties at some points, and i found myself unsure what was causing my troubles.
-* RAM memory is not cheap.  use it sparingly.
-* You need to set the radio into IDLE mode before reconfiguring it
-* You need to set the radio into TX mode *before* writing to the RFD register (firmware) as it is a 1-byte FIFO.
-
+- The memory model includes both "RAM" and "XDATA" concepts, and standard RAM variables and XDATA variables have different assembly instructions that are used to access them. this means that you may find oddities when using a function written for XDATA on a standard RAM variable, and vice-versa.
+- Variables should be defined in a single .c file, and then "externs" declared in a .h file that can be included in other modules. this is pretty standard for c programs, but both this and the previous point caused me difficulties at some points, and i found myself unsure what was causing my troubles.
+- RAM memory is not cheap. use it sparingly.
+- You need to set the radio into IDLE mode before reconfiguring it
+- You need to set the radio into TX mode _before_ writing to the RFD register (firmware) as it is a 1-byte FIFO.
 
 ## INSTALLING ON HARDWARE
 
@@ -69,35 +68,33 @@ First things first. Using rfcat requires that you either use the python client i
 sudo cp etc/udev/rules.d/20-rfcat.rules /etc/udev/rules.d
 sudo udevadm control --reload-rules
 ```
+
 Please make sure any user accounts you want to allow access to the RfCat dongle are members of the `dialout` group.
 
-This tool is created, maintained, and used primarily on linux.  make and sdcc must be installed for creating new firmware and some of the helper functions we provide through make.
+This tool is created, maintained, and used primarily on linux. make and sdcc must be installed for creating new firmware and some of the helper functions we provide through make.
 
 ### supported dongles
 
-* [YARDStick One](https://greatscottgadgets.com/yardstickone)
-* cc1111emk (aka DONSDONGLES)
-* chronos watch dongle (aka CHRONOSDONGLE)
-* imme (limited support for both IMME and IMMEDONGLE)
-    * imme dongle is not really usable as of 1/31/2012
-
-
+- [YARDStick One](https://greatscottgadgets.com/yardstickone)
+- cc1111emk (aka DONSDONGLES)
+- chronos watch dongle (aka CHRONOSDONGLE)
+- imme (limited support for both IMME and IMMEDONGLE)
+  - imme dongle is not really usable as of 1/31/2012
 
 #### GoodFET
-  
+
 ```
 
             --------------------------------
             |                         1  2 |
             |                         3  4 |
-       ------                         5  6 |  
+       ------                         5  6 |
        | USB                          7  8 |
        ------                         9 10 |
             |                        11 12 |
             | GoodFET                13 14 |
             --------------------------------
 ```
-
 
 #### Chronos Dongle
 
@@ -134,7 +131,7 @@ This tool is created, maintained, and used primarily on linux.  make and sdcc mu
             | Don's Dongle (EMK)           |
             --------------------------------
 
-               GoodFET              EMK               GreatFET             EMK  
+               GoodFET              EMK               GreatFET             EMK
                  PIN             DEBUG PIN              PIN            DEBUG PIN
 
                   1 <----- DD -----> 4              J1.37 <----- DD -----> 4
@@ -157,7 +154,7 @@ Pogo pads on the back are clearly marked, but if you want to use the header...
             |                                       |
             -----------------------------------------
 
-    
+
                GoodFET           YARD Stick One       GreatFET           YARD Stick One
                  PIN                 PIN               PIN                 PIN
 
@@ -168,26 +165,24 @@ Pogo pads on the back are clearly marked, but if you want to use the header...
                   9 <----- GND ----> 9                J1.1 <----- GND ----> 9
 ```
 
-
 ## INSTALLING WITH BOOTLOADER
 
 ### Steps required for all firmware installs and updates
 
-
 You will also need to install the build requirements of python-usb, libusb-1.0.0, make, and sdcc.
 
-* python-usb
-* libusb-1.0.0
-* make
-* sdcc
+- python-usb
+- libusb-1.0.0
+- make
+- sdcc
 
 ```
 sudo apt install python-usb libusb-1.0.0 make sdcc
 ```
 
-For sdcc and its dependency, sdcc-libraries, you may need to download it from a earlier release's repository if you are on a newer version of Debian or Ubuntu  such as:
+For sdcc and its dependency, sdcc-libraries, you may need to download it from a earlier release's repository if you are on a newer version of Debian or Ubuntu such as:
 
-* https://packages.debian.org/stretch/sdcc
+- https://packages.debian.org/stretch/sdcc
 
 Next, your user must have read/write access to the dongle when it shows up to the operating system.  
 For most Linux distros, this means you have to be a member of the "dialout" group.
@@ -207,7 +202,7 @@ sudo udevadm control --reload-rules
 
 ### Steps for bootloader + firmware installs via hardware debugger
 
-To prepare your dongle for the first time, you'll need to hook up your debugger as described above 
+To prepare your dongle for the first time, you'll need to hook up your debugger as described above
 
 Intended development model is using a [GoodFET](http://goodfet.sf.net) although one of our developers uses the chipcon debugger from Texas Instruments.
 
@@ -225,21 +220,22 @@ Freq         0.000 MHz
 RSSI    00
 ```
 
-* `make backupdongle` will read the current firmware from your dongle to the file `.../bins/original-dongle-hex.backup`.
-  (`make restoredongle`) to revert to the original firmware. 
-* `make clean installRfCatChronosDongle` will clean, build, and install the RfCat (`appFHSSNIC.c`) firmware for a Chronos dongle.
-* `make clean installRfCatDonsDongle` will clean, build, and install the RfCat (`appFHSSNIC.c`) firmware for a cc1111emk.
-* `make clean installimmesnifffw` will clean, build, and install the RfSniff firmware for the IMME girls toy from girltech 
+- `make backupdongle` will read the current firmware from your dongle to the file `.../bins/original-dongle-hex.backup`.
+  (`make restoredongle`) to revert to the original firmware.
+- `make clean installRfCatChronosDongle` will clean, build, and install the RfCat (`appFHSSNIC.c`) firmware for a Chronos dongle.
+- `make clean installRfCatDonsDongle` will clean, build, and install the RfCat (`appFHSSNIC.c`) firmware for a cc1111emk.
+- `make clean installimmesnifffw` will clean, build, and install the RfSniff firmware for the IMME girls toy from girltech
 
-
-Dependencies: Fergus Noble's CC-Bootloader (slightly modified). For your convenience, hex files are provided in 
-the CCBootloader sub-directory in firmware. 
+Dependencies: Fergus Noble's CC-Bootloader (slightly modified). For your convenience, hex files are provided in
+the CCBootloader sub-directory in firmware.
 
 Source can be found here
-* https://github.com/AdamLaurie/CC-Bootloader
+
+- https://github.com/AdamLaurie/CC-Bootloader
 
 Which is branched from here
-* https://github.com/fnoble/CC-Bootloader
+
+- https://github.com/fnoble/CC-Bootloader
 
 and do:
 
@@ -248,23 +244,23 @@ and do:
 `cd firmware`
 
 for EMK/DONSDONGLE:
-  `make installdonsbootloader`
+`make installdonsbootloader`
 
 for CHRONOS:
-  `make installchronosbootloader`
+`make installchronosbootloader`
 
 for YARDSTICKONE:
-  `make installys1bootloader`
+`make installys1bootloader`
 
 now unplug the debugger and plug in your USB dongle.
 
-If you have just installed the bootloader, the dongle should be in bootloader mode, indicated by a solid LED. 
+If you have just installed the bootloader, the dongle should be in bootloader mode, indicated by a solid LED.
 
 ### Steps for firmware updates via USB port
 
 If you are re-flashing a dongle that is already running rfcat firmware, such as a YarstickOne, the Makefile targets will force it into bootloader
-mode for you, but you can manually put it into bootloader mode either by holding down the EMK/DONS button as you plug 
-it into USB (on the CHRONOS or YARDSTICKONE jumper P2_2/DC to GROUND), or by issuing the command `d.bootloader()` to rfcat in interactive 
+mode for you, but you can manually put it into bootloader mode either by holding down the EMK/DONS button as you plug
+it into USB (on the CHRONOS or YARDSTICKONE jumper P2_2/DC to GROUND), or by issuing the command `d.bootloader()` to rfcat in interactive
 mode (`rfcat -r`), or by issuing the command `rfcat --bootloader --force` from the command line.
 
 Once you have a solid LED, or if you're running an rfcat dongle, you can do the following:
@@ -272,13 +268,16 @@ Once you have a solid LED, or if you're running an rfcat dongle, you can do the 
 `cd firmware`
 
 for EMK/DONSDONGLE:
-* `make installRfCatDonsDongleCCBootloader`
+
+- `make installRfCatDonsDongleCCBootloader`
 
 for CHRONOS:
-* `make installRfCatChronosDongleCCBootloader`
+
+- `make installRfCatChronosDongleCCBootloader`
 
 for YARDSTICKONE:
-* `make installRfCatYS1CCBootloader`
+
+- `make installRfCatYS1CCBootloader`
 
 The new version will be installed, and bootloader exited.
 
@@ -304,61 +303,61 @@ pip install -e .
 ```
 
 I highly recommend installing `ipython`:
-* For deb/ubuntu folk: `apt-get install ipython3`
+
+- For deb/ubuntu folk: `apt-get install ipython3`
 
 ## Using rfcat
 
 If you have configured your system to allow non-root use:
 
-* type "rfcat -r"   (if your system is not configured to allow non-root use, prepend "sudo" or you must run as root)
-    you should have now entered an interactive python shell, where tab-completion and other aids should make a very powerful experience
-    i love the raw-byte handling and introspection of it all.
+- type "rfcat -r" (if your system is not configured to allow non-root use, prepend "sudo" or you must run as root)
+  you should have now entered an interactive python shell, where tab-completion and other aids should make a very powerful experience
+  i love the raw-byte handling and introspection of it all.
 
-* try things like:
-    * d.ping()
-    * d.discover()
-    * d.debug()
-    * d.RFxmit('blahblahblah')
-    * d.RFrecv()
-    * print(d.reprRadioConfig())
-    * d.setMdmDRate(19200)      # this sets the modem baud rate (or DataRate)
-    * d.setPktPQT(0)            # this sets the preamble quality threshold to 0
-    * d.setEnableMdmFEC(True)   # enables the convolutional Forward Error Correction built into the radio
+- try things like:
+  - d.ping()
+  - d.discover()
+  - d.debug()
+  - d.RFxmit('blahblahblah')
+  - d.RFrecv()
+  - print(d.reprRadioConfig())
+  - d.setMdmDRate(19200) # this sets the modem baud rate (or DataRate)
+  - d.setPktPQT(0) # this sets the preamble quality threshold to 0
+  - d.setEnableMdmFEC(True) # enables the convolutional Forward Error Correction built into the radio
 
-
-while the toolset was created to make communicating with <ghz much easier, you will find the cc1111 manual from ti a great value.  the better you understand the radio, the better your experience will be.
-play with the radio settings, but i recommend playing in small amounts and watch for the effects.  several things in the radio configuration settings are mandatory to get right in order to receive or transmit anything (one of those odd requirements is the TEST2/1/0 registers!)
+while the toolset was created to make communicating with <ghz much easier, you will find the cc1111 manual from ti a great value. the better you understand the radio, the better your experience will be.
+play with the radio settings, but i recommend playing in small amounts and watch for the effects. several things in the radio configuration settings are mandatory to get right in order to receive or transmit anything (one of those odd requirements is the TEST2/1/0 registers!)
 
 If you watched any of my talks on rfcat, you will likely remember that you need to put the radio in **IDLE state** before configuring. (I said it three times, in a row, in different inflections).
 
-However, you will find that I've done that for you in the client for most things.  The only time you need to do this yourself are:
-    * If you are doing the changes in firmware
-    * If you are using the "d.poke()" functionality
-        * if you use "d.setRFRegister()", this is handled for you
-        * `use d.setRFRegister()`
+However, you will find that I've done that for you in the client for most things. The only time you need to do this yourself are:
+_ If you are doing the changes in firmware
+_ If you are using the "d.poke()" functionality
+_ if you use "d.setRFRegister()", this is handled for you
+_ `use d.setRFRegister()`
 
 ## IMMESniffer key bindings
 
 When running with an IMME device, the sniffer UI accepts these key bindings:
 
-| Key | Action |
-|-----|--------|
-| `q` / `a` | Inc / dec highest sync word nibble |
-| `w` / `s` | Inc / dec high-middle sync word nibble |
-| `e` / `d` | Inc / dec low-middle sync word nibble |
-| `r` / `f` | Inc / dec lowest sync word nibble |
-| `z` | No sync word matching |
-| `menu` / `bye!` | Inc / dec modulation type |
-| `up` / `down` | Inc / dec receive bandwidth |
-| `right` / `left` | Inc / dec baudrate |
-| `p` / `Enter` | Inc / dec frequency |
-| `o` / `,` | Faster inc / dec frequency |
-| `i` / `m` | Even faster inc / dec frequency |
-| `l` / `k` / `j` / `h` | Set freq to 915 / 868 / 433 / 315 MHz |
-| `t` / `v` | Inc / dec channels |
-| `g` | Set channel to 0 |
-| `SPACE` | Switch screens |
-| `SPKR` | Toggle carrier TX mode |
+| Key                   | Action                                 |
+| --------------------- | -------------------------------------- |
+| `q` / `a`             | Inc / dec highest sync word nibble     |
+| `w` / `s`             | Inc / dec high-middle sync word nibble |
+| `e` / `d`             | Inc / dec low-middle sync word nibble  |
+| `r` / `f`             | Inc / dec lowest sync word nibble      |
+| `z`                   | No sync word matching                  |
+| `menu` / `bye!`       | Inc / dec modulation type              |
+| `up` / `down`         | Inc / dec receive bandwidth            |
+| `right` / `left`      | Inc / dec baudrate                     |
+| `p` / `Enter`         | Inc / dec frequency                    |
+| `o` / `,`             | Faster inc / dec frequency             |
+| `i` / `m`             | Even faster inc / dec frequency        |
+| `l` / `k` / `j` / `h` | Set freq to 915 / 868 / 433 / 315 MHz  |
+| `t` / `v`             | Inc / dec channels                     |
+| `g`                   | Set channel to 0                       |
+| `SPACE`               | Switch screens                         |
+| `SPKR`                | Toggle carrier TX mode                 |
 
 ## MSF Relay
 
@@ -385,11 +384,11 @@ Once the hardware bridge session is open, `run post/hardware/rftransceiver/...` 
 [rfox](https://github.com/qu-crypt/rfox) is a companion CLI built on top of rflib that wraps the most common day-to-day RF workflows - capture, replay, decode, sweep, jam, brute-force, and more - behind a single consistent interface and a shared pcap capture format. Install it separately if you want a higher-level tool on top of rfcat.
 
 ## External Projects
-[ZWave Attack](https://www.initbrain.fr/security/2016/z-attack/):  [https://github.com/initbrain/Z-Attack](https://github.com/initbrain/Z-Attack)
+
+[ZWave Attack](https://www.initbrain.fr/security/2016/z-attack/): [https://github.com/initbrain/Z-Attack](https://github.com/initbrain/Z-Attack)
 
 ## Epilogue
 
 Other than that, hack fun, and feel free to share any details you can about successes and questions about failures you are able!
 
 @ and the rest of the development team.
-
