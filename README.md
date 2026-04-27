@@ -25,6 +25,8 @@ The goals of the project are to reduce the time for security researchers to crea
 
 ## REQUIREMENTS
 
+This is a fork of the well know rfcat that has been fully upgraded to Python 3.
+Majority of this README file has been kept the same. 
 RfCat requires Python 3.8 or newer. Python 2 support has been removed.
 
 ### Other requirements
