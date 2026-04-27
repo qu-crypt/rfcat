@@ -284,20 +284,22 @@ The new version will be installed, and bootloader exited.
 
 ## Installing client
 
-### Dependencies
+```bash
+pip install rfcat-py3
+```
 
-* python-usb
-* libusb
-
-Install rfcat onto your system.  on most linux systems, this will place `rfcat` and `rfcat_server` in `/usr/local/bin/` and `rflib` into `/usr/*/lib/python3/dist-packages`
-
-### Installation
+With spectrum analyser GUI:
 
 ```bash
-# standard install
-pip install .
+pip install 'rfcat-py3[specan]'
+```
 
-# editable/development install (runs from the checked-out directory)
+For development:
+
+```bash
+git clone https://github.com/qu-crypt/rfcat.git
+cd rfcat
+python3 -m venv .venv && source .venv/bin/activate
 pip install -e .
 ```
 
