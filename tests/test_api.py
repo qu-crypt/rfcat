@@ -82,8 +82,9 @@ class TestIntelHex(unittest.TestCase):
         self.assertEqual(ih.gets(0, 4), b'\xde\xad\xbe\xef')
 
 
+@unittest.skipUnless(os.getenv('RFCAT_HARDWARE'), 'no hardware dongle (set RFCAT_HARDWARE=1 to run)')
 class TestImportingDongle(unittest.TestCase):
-    """Requires a hardware dongle attached. Errors without one (expected)."""
+    """Requires a hardware dongle attached."""
     def test_importing(self):
         import rflib
         rflib.RfCat(idx=0)
